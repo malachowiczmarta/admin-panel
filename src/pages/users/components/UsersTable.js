@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 
 import { Table, Thead, Tbody, Tr, Th, Td } from "@chakra-ui/react";
+import User from "./User";
 
 const UsersTable = (props) => {
   const { users } = props;
@@ -18,13 +19,7 @@ const UsersTable = (props) => {
         </Thead>
         <Tbody>
           {users.map((user) => (
-            <Tr>
-              <Td>{user.id}</Td>
-              <Td>{user.name}</Td>
-              <Td>{user.username}</Td>
-              <Td>{user.address.city}</Td>
-              <Td>{user.email}</Td>
-            </Tr>
+              <User data={user} />
           ))}
         </Tbody>
       </Table>
