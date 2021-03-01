@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { fetchUsers } from "../../../store/reducers/users";
+import { fetchUsers, deleteUser } from "../../../store/reducers/users";
 import UsersTable from "../components/UsersTable";
 
 const Users = (props) => {
@@ -10,12 +10,16 @@ const Users = (props) => {
     fetchUsers();
   }, [fetchUsers]);
 
+  const handleDelete = (id) => {
+    console.log(id);
+    props.deleteUser(id);
+  };
+
   return (
     <div>
       <h1>Users List</h1>
-      {props.isLoading && <p>loading...</p>}
       {props.isError && <p>an error has occurred</p>}
-      <UsersTable />
+      {props.isLoading ? <p>loading...</p> : <UsersTable deleteUser={handleDelete}/>}
     </div>
   );
 };
@@ -30,6 +34,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   fetchUsers,
+  deleteUser
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Users);

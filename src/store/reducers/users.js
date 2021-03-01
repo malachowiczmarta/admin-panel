@@ -1,9 +1,8 @@
 const FETCH_USERS_REQUESTED = "users/FETCH_USERS_REQUESTED";
-const FETCH_USERS_SUCCEDED = "users/FETCH_USERS_SUCCEDED";
+const FETCH_USERS_SUCCEED = "users/FETCH_USERS_SUCCEED";
 const FETCH_USERS_FAILED = "users/FETCH_USERS_FAILED";
 
-// const RESET_USERS = "users/USERS_RESET";
-// const FETCH_USER_SUCCEDED = "users/FETCH_USER_SUCCEDED";
+const DELETE_USER = "users/DELETE_USER";
 
 const INITIAL_STATE = {
   users: [],
@@ -13,23 +12,26 @@ const INITIAL_STATE = {
 
 const fetchRequested = () => ({ type: FETCH_USERS_REQUESTED });
 const fetchFailed = () => ({ type: FETCH_USERS_FAILED });
-const fetchUsersSucceded = (data) => ({
-  type: FETCH_USERS_SUCCEDED,
+const fetchUsersSucceed = (data) => ({
+  type: FETCH_USERS_SUCCEED,
   payload: data,
 });
-// const fetchUserSucceded = (data) => ({
-//   type: FETCH_USER_SUCCEDED,
-//   payload: data,
-// });
+
+const fetchDeleteSucceed = (id) => ({
+    type: DELETE_USER,
+    payload: id
+});
 
 export const fetchUsers = () => {
   return function (dispatch) {
     dispatch(fetchRequested());
-    fetch("https://my-json-server.typicode.com/karolkproexe/jsonplaceholderdb/data")
+    fetch(
+      "https://my-json-server.typicode.com/karolkproexe/jsonplaceholderdb/data"
+    )
       .then((response) => response.json())
       .then((data) => {
-          console.log(data)
-        dispatch(fetchUsersSucceded(data));
+        console.log(data);
+        dispatch(fetchUsersSucceed(data));
       })
       .catch((error) => {
         dispatch(fetchFailed());
@@ -37,23 +39,23 @@ export const fetchUsers = () => {
   };
 };
 
-// export const addUser = () => {
-//   return function (dispatch) {
-//     dispatch(fetchRequested());
-//     fetch("https://randomuser.me/api/?results=1")
-//       .then((response) => response.json())
-//       .then((data) => {
-//         dispatch(fetchUserSucceded(data.results));
-//       })
-//       .catch((error) => {
-//         dispatch(fetchFailed());
-//       });
-//   };
-// };
+export const deleteUser = (id) => {
+    return function (dispatch) {
+      dispatch(fetchRequested());
+      fetch(`https://my-json-server.typicode.com/karolkproexe/jsonplaceholderdb/data/${id}`, {
+        method: 'DELETE',
+        })
+        .then((response) => response.json())
+        .then((data) => {
+          dispatch(fetchDeleteSucceed(id));
+        })
+        .catch((error) => {
+          dispatch(fetchFailed());
+        });
+    };
+  };
 
-// export const reset = () => ({ type: RESET_USERS });
-
-function reducer (state = INITIAL_STATE, action) {
+function reducer(state = INITIAL_STATE, action) {
   switch (action.type) {
     case FETCH_USERS_REQUESTED:
       return {
@@ -61,36 +63,29 @@ function reducer (state = INITIAL_STATE, action) {
         isLoading: true,
         isError: false,
       };
-    case FETCH_USERS_SUCCEDED:
+    case FETCH_USERS_SUCCEED:
       return {
         ...state,
         isLoading: false,
         isError: false,
         users: action.payload,
       };
-    // case FETCH_USER_SUCCEDED:
-    //   return {
-    //     ...state,
-    //     isLoading: false,
-    //     isError: false,
-    //     users: state.users.concat(action.payload),
-    //   };
     case FETCH_USERS_FAILED:
       return {
         ...state,
         isLoading: false,
         isError: true,
       };
-    // case RESET_USERS:
-    //   return {
-    //     ...state,
-    //     isLoading: false,
-    //     isError: false,
-    //     users: [],
-    //   };
+      case DELETE_USER:
+        return {
+          ...state,
+          isLoading: false,
+          isError: false,
+          users: state.users.filter(user => user.id !== action.payload)
+        };
     default:
       return state;
   }
-};
+}
 
 export default reducer;
