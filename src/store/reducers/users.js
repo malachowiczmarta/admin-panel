@@ -3,6 +3,7 @@ const FETCH_USERS_SUCCEED = "users/FETCH_USERS_SUCCEED";
 const FETCH_USERS_FAILED = "users/FETCH_USERS_FAILED";
 
 const DELETE_USER = "users/DELETE_USER";
+const ADD_USER = "users/ADD_USER";
 
 const INITIAL_STATE = {
   users: [],
@@ -18,8 +19,13 @@ const fetchUsersSucceed = (data) => ({
 });
 
 const fetchDeleteSucceed = (id) => ({
-    type: DELETE_USER,
-    payload: id
+  type: DELETE_USER,
+  payload: id,
+});
+
+const fetchAddSucceed = (user) => ({
+  type: ADD_USER,
+  payload: user,
 });
 
 export const fetchUsers = () => {
@@ -40,20 +46,47 @@ export const fetchUsers = () => {
 };
 
 export const deleteUser = (id) => {
-    return function (dispatch) {
-      dispatch(fetchRequested());
-      fetch(`https://my-json-server.typicode.com/karolkproexe/jsonplaceholderdb/data/${id}`, {
-        method: 'DELETE',
-        })
-        .then((response) => response.json())
-        .then(() => {
-          dispatch(fetchDeleteSucceed(id));
-        })
-        .catch((error) => {
-          dispatch(fetchFailed());
-        });
-    };
+  return function (dispatch) {
+    dispatch(fetchRequested());
+    fetch(
+      `https://my-json-server.typicode.com/karolkproexe/jsonplaceholderdb/data/${id}`,
+      {
+        method: "DELETE",
+      }
+    )
+      .then((response) => response.json())
+      .then(() => {
+        dispatch(fetchDeleteSucceed(id));
+      })
+      .catch((error) => {
+        dispatch(fetchFailed());
+      });
   };
+};
+
+export const addUser = (user) => {
+  return function (dispatch) {
+    dispatch(fetchRequested());
+    fetch(
+      "https://my-json-server.typicode.com/karolkproexe/jsonplaceholderdb/data",
+      {
+        method: "POST",
+        body: JSON.stringify(user),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        dispatch(fetchAddSucceed(data));
+      })
+      .catch((error) => {
+        dispatch(fetchFailed());
+      });
+  };
+};
 
 function reducer(state = INITIAL_STATE, action) {
   switch (action.type) {
@@ -76,13 +109,20 @@ function reducer(state = INITIAL_STATE, action) {
         isLoading: false,
         isError: true,
       };
-      case DELETE_USER:
-        return {
-          ...state,
-          isLoading: false,
-          isError: false,
-          users: state.users.filter(user => user.id !== action.payload)
-        };
+    case DELETE_USER:
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        users: state.users.filter((user) => user.id !== action.payload),
+      };
+    case ADD_USER:
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        users: state.users.concat(action.payload),
+      };
     default:
       return state;
   }

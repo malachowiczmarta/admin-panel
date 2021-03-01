@@ -1,4 +1,10 @@
 import React from "react";
+import {
+  FormLabel,
+  Input,
+  FormErrorMessage,
+  FormHelperText,
+} from "@chakra-ui/react";
 
 const FormField = ({
   onChange,
@@ -12,15 +18,15 @@ const FormField = ({
 
   return (
     <>
-      <label htmlFor={id}>{label}</label>
-      <input
+      <FormLabel htmlFor={id}>{label}</FormLabel>
+      <Input
         name={name}
         placeholder={placeholder}
         id={id}
         type={type}
         value={value}
         onChange={onChange}
-      ></input>
+      ></Input>
     </>
   );
 };
