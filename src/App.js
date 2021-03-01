@@ -16,6 +16,7 @@ import Users from "./pages/users/containers/Users";
 const persistConfig = {
   key: "root",
   storage: storage,
+  whitelist: ["users", "ui"]
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer),

@@ -46,7 +46,7 @@ export const deleteUser = (id) => {
         method: 'DELETE',
         })
         .then((response) => response.json())
-        .then((data) => {
+        .then(() => {
           dispatch(fetchDeleteSucceed(id));
         })
         .catch((error) => {
