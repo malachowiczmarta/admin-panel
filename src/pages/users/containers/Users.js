@@ -21,12 +21,12 @@ const Users = (props) => {
     props.deleteUser(id);
   };
 
-  const handleEdit = (id) => {
+  const openEditPopup = (id) => {
     console.log("edit");
     props.setPopup();
   };
 
-  const handleAddUser = () => {
+  const openAddUserPopup = () => {
     console.log("add");
     props.setPopup();
     console.log(props.showPopup);
@@ -35,7 +35,7 @@ const Users = (props) => {
   return (
     <div>
       <h1>User List</h1>
-      <Button variant="add" label="Add new" onClick={handleAddUser} />
+      <Button variant="add" label="Add new" onClick={openAddUserPopup} />
       <Popup>
           <Form />
       </Popup>
@@ -43,7 +43,7 @@ const Users = (props) => {
       {props.isLoading ? (
         <p>loading...</p>
       ) : (
-        <UsersTable deleteUser={handleDelete} editUser={handleEdit} />
+        <UsersTable deleteUser={handleDelete} editUser={openEditPopup} />
       )}
     </div>
   );

@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
+import { setPopup } from "../../store/reducers/ui";
+
 import Button from "../button/Button";
 import FormField from "./FormField";
 
@@ -9,7 +12,7 @@ const initialFormState = {
   email: "",
 };
 
-const Form = () => {
+const Form = (props) => {
   const [formValues, setFormValues] = useState(initialFormState);
 
   const handleInputChange = (e) => {
@@ -22,10 +25,12 @@ const Form = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("submit");
+    props.setPopup();
   };
 
   const handleCancel = () => {
     console.log("cancel");
+    props.setPopup();
   };
 
   return (
@@ -64,10 +69,22 @@ const Form = () => {
         value={formValues.email}
         onChange={handleInputChange}
       />
+      <Button variant="cancel" label="Cancel" onClick={handleCancel} type="button"></Button>
       <Button variant="submit" label="Submit" />
-      <Button variant="cancel" label="Cancel" onClick={handleCancel} />
     </form>
+
+
   );
 };
 
-export default Form;
+const mapStateToProps = (state) => {
+  return {
+    showPopup: state.ui.showPopup,
+  };
+};
+
+const mapDispatchToProps = {
+  setPopup,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Form);

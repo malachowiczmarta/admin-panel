@@ -1,15 +1,25 @@
 import React from "react";
 import { connect } from "react-redux";
 
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+} from "@chakra-ui/react";
+import Button from "../../components/button/Button";
+
 function Popup({ children, ...props }) {
   return (
-    <>
-      {props.showPopup ? (
-        <div>
-          <div>{children}</div>
-        </div>
-      ) : null}
-    </>
+    <Modal isOpen={props.showPopup}>
+      <ModalOverlay />
+      <ModalContent>
+        <ModalBody>{children}</ModalBody>
+      </ModalContent>
+    </Modal>
   );
 }
 
