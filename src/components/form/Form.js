@@ -3,23 +3,37 @@ import { connect } from "react-redux";
 import { setPopup } from "../../store/reducers/ui";
 import { addUser } from "../../store/reducers/users";
 import FormField from "./FormField";
-import {
-  FormControl,
-  FormErrorMessage,
-  FormHelperText,
-  Button,
-  ButtonGroup,
-} from "@chakra-ui/react";
+import { FormErrorMessage, FormHelperText, Button } from "@chakra-ui/react";
 
-const initialFormState = {
+//nazwać inaczej
+const userData = {
   name: "",
-  userName: "",
+  username: "",
   city: "",
   email: "",
 };
 
-const Form = (props) => {
-  const [formValues, setFormValues] = useState(initialFormState);
+const Form = ({ editId, ...props }) => {
+  const users = props.users;
+
+  const formState = () => {
+    let initialFormState;
+    if (editId) {
+      const filterUsers = users.filter((user) => user.id === editId);
+      const userToEdit = filterUsers[0];
+      initialFormState = {
+        name: userToEdit.name,
+        username: userToEdit.username,
+        city: userToEdit.address.city,
+        email: userToEdit.email,
+      };
+    } else {
+      initialFormState = userData;
+    }
+    return initialFormState;
+  };
+
+  const [formValues, setFormValues] = useState(() => formState());
 
   const handleInputChange = (e) => {
     setFormValues({
@@ -34,24 +48,28 @@ const Form = (props) => {
 
     const newUser = {
       name: formValues.name,
-      userName: formValues.userName,
-      city: formValues.city,
+      username: formValues.username,
+      address: {
+        city: formValues.city,
+      },
       email: formValues.email,
     };
-
     props.addUser(newUser);
+    setFormValues(userData);
 
     props.setPopup();
   };
 
   const handleCancel = () => {
     console.log("cancel");
+    setFormValues(userData);
+    console.log(formValues)
     props.setPopup();
   };
 
   return (
     <>
-      <FormControl onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <FormField
           id="input-name"
           name="name"
@@ -62,12 +80,12 @@ const Form = (props) => {
           onChange={handleInputChange}
         />
         <FormField
-          id="input-userName"
-          name="userName"
+          id="input-username"
+          name="username"
           placeholder="Username"
           label="Username"
           type="text"
-          value={formValues.userName}
+          value={formValues.username}
           onChange={handleInputChange}
         />
 
@@ -90,23 +108,26 @@ const Form = (props) => {
           value={formValues.email}
           onChange={handleInputChange}
         />
-        <Button colorScheme="green" type="submit">Submit</Button>
-      </FormControl>
-      <Button
-        colorScheme="red"
-        mr={3}
-        variant="outline"
-        onClick={handleCancel}
-        type="button"
-      >
-        Cancel
-      </Button>
+        <Button colorScheme="green" type="submit">
+          Submit
+        </Button>
+        <Button
+          colorScheme="red"
+          mr={3}
+          variant="outline"
+          onClick={handleCancel}
+          type="button"
+        >
+          Cancel
+        </Button>
+      </form>
     </>
   );
 };
 
 const mapStateToProps = (state) => {
   return {
+    users: state.users.users,
     showPopup: state.ui.showPopup,
   };
 };

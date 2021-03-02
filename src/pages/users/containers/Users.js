@@ -1,15 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { fetchUsers, deleteUser } from "../../../store/reducers/users";
 import { setPopup } from "../../../store/reducers/ui";
 import Button from "../../../components/button/Button";
 import UsersTable from "../components/UsersTable";
 import Popup from "../../../ui/popup/Popup";
-import Form from "../../../components/form/Form"
+import Form from "../../../components/form/Form";
 
 const Users = (props) => {
   const fetchUsers = props.fetchUsers;
   const users = props.users;
+  const [editedId, setEditedId] = useState("");
+
   useEffect(() => {
     if (users && !users.length) {
       fetchUsers();
@@ -22,14 +24,12 @@ const Users = (props) => {
   };
 
   const openEditPopup = (id) => {
-    console.log("edit");
+    setEditedId(id);
     props.setPopup();
   };
 
   const openAddUserPopup = () => {
-    console.log("add");
     props.setPopup();
-    console.log(props.showPopup);
   };
 
   return (
@@ -37,7 +37,7 @@ const Users = (props) => {
       <h1>User List</h1>
       <Button variant="add" label="Add new" onClick={openAddUserPopup} />
       <Popup>
-          <Form />
+        <Form editId={editedId} />
       </Popup>
       {props.isError && <p>an error has occurred</p>}
       {props.isLoading ? (
