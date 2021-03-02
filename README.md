@@ -13,8 +13,8 @@ To run this application you need to have installed:
 To get the frontend running locally:
 ```
 Clone this repo
-npm install or yarn to install all required dependencies
-npm start or yarn start to start the local server
+npm install 
+npm start 
 
 ```
 By default the app is available under: http://0.0.0.0:3000
