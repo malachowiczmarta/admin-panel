@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { setPopup } from "../../store/reducers/ui";
-import { addUser } from "../../store/reducers/users";
+import { addUser, editUser } from "../../store/reducers/users";
 import FormField from "./FormField";
 import { FormErrorMessage, FormHelperText, Button } from "@chakra-ui/react";
 
@@ -54,7 +54,12 @@ const Form = ({ editId, ...props }) => {
       },
       email: formValues.email,
     };
-    props.addUser(newUser);
+
+    if (editId) {
+      props.editUser(newUser, editId);
+    } else {
+      props.addUser(newUser);
+    }
     setFormValues(userData);
 
     props.setPopup();
@@ -63,7 +68,7 @@ const Form = ({ editId, ...props }) => {
   const handleCancel = () => {
     console.log("cancel");
     setFormValues(userData);
-    console.log(formValues)
+    console.log(formValues);
     props.setPopup();
   };
 
@@ -135,6 +140,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   setPopup,
   addUser,
+  editUser,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Form);

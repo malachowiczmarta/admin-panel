@@ -4,6 +4,7 @@ const FETCH_USERS_FAILED = "users/FETCH_USERS_FAILED";
 
 const DELETE_USER = "users/DELETE_USER";
 const ADD_USER = "users/ADD_USER";
+const EDIT_USER = "users/EDIT_USER";
 
 const INITIAL_STATE = {
   users: [],
@@ -25,6 +26,11 @@ const fetchDeleteSucceed = (id) => ({
 
 const fetchAddSucceed = (user) => ({
   type: ADD_USER,
+  payload: user,
+});
+
+const fetchEditSucceed = (user) => ({
+  type: EDIT_USER,
   payload: user,
 });
 
@@ -88,6 +94,30 @@ export const addUser = (user) => {
   };
 };
 
+export const editUser = (user, id) => {
+  return function (dispatch) {
+    dispatch(fetchRequested());
+    fetch(
+      `https://my-json-server.typicode.com/karolkproexe/jsonplaceholderdb/data/${id}`,
+      {
+        method: "PUT",
+        body: JSON.stringify(user),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        dispatch(fetchEditSucceed(data));
+      })
+      .catch((error) => {
+        dispatch(fetchFailed());
+      });
+  };
+};
+
 function reducer(state = INITIAL_STATE, action) {
   switch (action.type) {
     case FETCH_USERS_REQUESTED:
@@ -122,6 +152,19 @@ function reducer(state = INITIAL_STATE, action) {
         isLoading: false,
         isError: false,
         users: state.users.concat(action.payload),
+      };
+    case EDIT_USER:
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        users: state.users.map((element) => {
+          if (element.id === action.payload.id) {
+            return action.payload;
+          }
+
+          return element;
+        }),
       };
     default:
       return state;
