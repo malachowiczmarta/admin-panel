@@ -3,6 +3,7 @@ import {
   FormLabel,
   Input,
   Box,
+  FormControl,
   FormErrorMessage,
   FormHelperText,
 } from "@chakra-ui/react";
@@ -14,11 +15,12 @@ const FormField = ({
   name,
   id,
   placeholder,
-  type
+  type,
+  required=true
 }) => {
 
   return (
-    <Box my="20px">
+    <FormControl isRequired={required}>
       <FormLabel htmlFor={id}>{label}</FormLabel>
       <Input
         name={name}
@@ -28,7 +30,7 @@ const FormField = ({
         value={value}
         onChange={onChange}
       ></Input>
-    </Box>
+    </FormControl>
   );
 };
 
