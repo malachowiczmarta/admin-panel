@@ -13,10 +13,8 @@ const Users = (props) => {
   const [editedId, setEditedId] = useState("");
 
   useEffect(() => {
-    if (users && !users.length) {
-      fetchUsers();
-    }
-  }, [users, fetchUsers]);
+    fetchUsers();
+  }, [fetchUsers]);
 
   const openEditPopup = (id) => {
     setEditedId(id);
@@ -24,6 +22,7 @@ const Users = (props) => {
   };
 
   const openAddUserPopup = () => {
+    setEditedId(null);
     props.setPopup();
   };
 
@@ -31,7 +30,7 @@ const Users = (props) => {
     <Box maxW="960px" mx="auto" my="50px">
       <Flex w="full" align="center" justify="space-between" my="20px">
         <Heading as="h1" size="lg">
-          User List
+          Users
         </Heading>
         <Button colorScheme="green" onClick={openAddUserPopup}>
           Add new user
@@ -48,6 +47,7 @@ const Users = (props) => {
           editUser={openEditPopup}
         />
       )}
+      {!users.length && <h2>User list is empty, please add new user</h2>}
     </Box>
   );
 };

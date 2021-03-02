@@ -4,14 +4,10 @@ import { setPopup } from "../../store/reducers/ui";
 import { addUser, editUser } from "../../store/reducers/users";
 import FormField from "./FormField";
 import {
-  FormErrorMessage,
-  FormHelperText,
   Button,
   Box,
-  ModalFooter,
 } from "@chakra-ui/react";
 
-//nazwać inaczej
 const userData = {
   name: "",
   username: "",
@@ -50,7 +46,6 @@ const Form = ({ editId, ...props }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("submit");
 
     const newUser = {
       name: formValues.name,
@@ -121,13 +116,14 @@ const Form = ({ editId, ...props }) => {
         <Button
           colorScheme="red"
           mr={3}
+          mt="20px"
           variant="outline"
           onClick={handleCancel}
           type="button"
         >
           Cancel
         </Button>
-        <Button colorScheme="green" type="submit">
+        <Button colorScheme="green" type="submit" mt="20px">
           Submit
         </Button>
       </form>

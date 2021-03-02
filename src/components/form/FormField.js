@@ -2,10 +2,8 @@ import React from "react";
 import {
   FormLabel,
   Input,
-  Box,
   FormControl,
   FormErrorMessage,
-  FormHelperText,
 } from "@chakra-ui/react";
 
 const FormField = ({
@@ -16,12 +14,12 @@ const FormField = ({
   id,
   placeholder,
   type,
-  required=true
+  required=true,
 }) => {
 
   return (
-    <FormControl isRequired={required}>
-      <FormLabel htmlFor={id}>{label}</FormLabel>
+    <FormControl isRequired={required} mb="15px">
+      <FormLabel htmlFor={id}>{label}:</FormLabel>
       <Input
         name={name}
         placeholder={placeholder}
@@ -30,6 +28,7 @@ const FormField = ({
         value={value}
         onChange={onChange}
       ></Input>
+      <FormErrorMessage/>
     </FormControl>
   );
 };

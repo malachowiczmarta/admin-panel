@@ -40,7 +40,7 @@ function DeleteButton({id, ...props}) {
         <AlertDialogOverlay>
           <AlertDialogContent>
             <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              Delete Customer
+              Delete User
             </AlertDialogHeader>
 
             <AlertDialogBody>
