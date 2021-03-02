@@ -1,9 +1,9 @@
 import React from "react";
 
-import { Tr, Td } from "@chakra-ui/react";
-import Button from "../../../components/button/Button";
+import { Tr, Td, Button } from "@chakra-ui/react";
+import DeleteButton from "../../../components/deleteButton/DeleteButton";
 
-const User = ({data, deleteUser, editUser}) => {
+const User = ({data, deleteUser, editUser, openPopup}) => {
   return (
     <Tr>
       <Td>{data.id}</Td>
@@ -11,8 +11,8 @@ const User = ({data, deleteUser, editUser}) => {
       <Td>{data.username}</Td>
       <Td>{data.address.city}</Td>
       <Td>{data.email}</Td>
-      <Td><Button label="edit" variant="edit" onClick={() => editUser(data.id)}/></Td>
-      <Td><Button label="delete" variant="delete" onClick={() => deleteUser(data.id)}/></Td>
+      <Td><Button colorScheme="blue" onClick={() => editUser(data.id)}>edit</Button></Td>
+      <Td><DeleteButton id={data.id} /></Td>
     </Tr>
   );
 };

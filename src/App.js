@@ -7,7 +7,6 @@ import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { PersistGate } from "redux-persist/integration/react";
 
-import { ChakraProvider } from "@chakra-ui/react";
 import rootReducer from "./rootReducer";
 
 import "./App.css";
@@ -16,7 +15,7 @@ import Users from "./pages/users/containers/Users";
 const persistConfig = {
   key: "root",
   storage: storage,
-  whitelist: ["users", "ui"]
+  whitelist: ["users", "ui"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer),
@@ -33,9 +32,7 @@ function App() {
     <div className="App">
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          <ChakraProvider>
-            <Users />
-          </ChakraProvider>
+          <Users />
         </PersistGate>
       </Provider>
     </div>

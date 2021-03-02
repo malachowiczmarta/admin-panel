@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { setPopup } from "../../store/reducers/ui";
 import { addUser, editUser } from "../../store/reducers/users";
 import FormField from "./FormField";
-import { FormErrorMessage, FormHelperText, Button } from "@chakra-ui/react";
+import { FormErrorMessage, FormHelperText, Button, Box, ModalFooter } from "@chakra-ui/react";
 
 //nazwać inaczej
 const userData = {
@@ -73,7 +73,7 @@ const Form = ({ editId, ...props }) => {
   };
 
   return (
-    <>
+    <Box py="20px" px="50px">
       <form onSubmit={handleSubmit}>
         <FormField
           id="input-name"
@@ -113,9 +113,6 @@ const Form = ({ editId, ...props }) => {
           value={formValues.email}
           onChange={handleInputChange}
         />
-        <Button colorScheme="green" type="submit">
-          Submit
-        </Button>
         <Button
           colorScheme="red"
           mr={3}
@@ -125,8 +122,11 @@ const Form = ({ editId, ...props }) => {
         >
           Cancel
         </Button>
+        <Button colorScheme="green" type="submit">
+          Submit
+        </Button>
       </form>
-    </>
+    </Box>
   );
 };
 

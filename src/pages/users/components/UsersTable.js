@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Table, Thead, Tbody, Tr, Th } from "@chakra-ui/react";
 import User from "./User";
 
-const UsersTable = ({ deleteUser, editUser, ...props }) => {
+const UsersTable = ({ deleteUser, editUser, openPopup, ...props }) => {
   const { users } = props;
 
   return (
@@ -25,6 +25,7 @@ const UsersTable = ({ deleteUser, editUser, ...props }) => {
           <User
             key={`user-${user.id}`}
             data={user}
+            openPopup={openPopup}
             deleteUser={deleteUser}
             editUser={editUser}
           />

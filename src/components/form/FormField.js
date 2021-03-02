@@ -2,6 +2,7 @@ import React from "react";
 import {
   FormLabel,
   Input,
+  Box,
   FormErrorMessage,
   FormHelperText,
 } from "@chakra-ui/react";
@@ -17,7 +18,7 @@ const FormField = ({
 }) => {
 
   return (
-    <>
+    <Box my="20px">
       <FormLabel htmlFor={id}>{label}</FormLabel>
       <Input
         name={name}
@@ -27,7 +28,7 @@ const FormField = ({
         value={value}
         onChange={onChange}
       ></Input>
-    </>
+    </Box>
   );
 };
 

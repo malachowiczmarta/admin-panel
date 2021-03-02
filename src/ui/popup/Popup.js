@@ -5,19 +5,14 @@ import {
   Modal,
   ModalOverlay,
   ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
 } from "@chakra-ui/react";
-import Button from "../../components/button/Button";
 
 function Popup({ children, ...props }) {
   return (
     <Modal isOpen={props.showPopup}>
       <ModalOverlay />
       <ModalContent>
-        <ModalBody>{children}</ModalBody>
+        {children}
       </ModalContent>
     </Modal>
   );

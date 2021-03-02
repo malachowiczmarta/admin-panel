@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { fetchUsers, deleteUser } from "../../../store/reducers/users";
 import { setPopup } from "../../../store/reducers/ui";
-import Button from "../../../components/button/Button";
 import UsersTable from "../components/UsersTable";
 import Popup from "../../../ui/popup/Popup";
 import Form from "../../../components/form/Form";
+import { Box, Flex, Button, Heading } from "@chakra-ui/react";
 
 const Users = (props) => {
   const fetchUsers = props.fetchUsers;
@@ -18,11 +18,6 @@ const Users = (props) => {
     }
   }, [users, fetchUsers]);
 
-  const handleDelete = (id) => {
-    console.log(id);
-    props.deleteUser(id);
-  };
-
   const openEditPopup = (id) => {
     setEditedId(id);
     props.setPopup();
@@ -33,9 +28,15 @@ const Users = (props) => {
   };
 
   return (
-    <div>
-      <h1>User List</h1>
-      <Button variant="add" label="Add new" onClick={openAddUserPopup} />
+    <Box maxW="960px" mx="auto" my="50px">
+      <Flex w="full" align="center" justify="space-between" my="20px">
+        <Heading as="h1" size="lg">
+          User List
+        </Heading>
+        <Button colorScheme="green" onClick={openAddUserPopup}>
+          Add new user
+        </Button>
+      </Flex>
       <Popup>
         <Form editId={editedId} />
       </Popup>
@@ -43,9 +44,11 @@ const Users = (props) => {
       {props.isLoading ? (
         <p>loading...</p>
       ) : (
-        <UsersTable deleteUser={handleDelete} editUser={openEditPopup} />
+        <UsersTable
+          editUser={openEditPopup}
+        />
       )}
-    </div>
+    </Box>
   );
 };
 
