@@ -15,6 +15,7 @@ const FormField = ({
   placeholder,
   type,
   required=true,
+  errorMsg
 }) => {
 
   return (
@@ -28,7 +29,8 @@ const FormField = ({
         value={value}
         onChange={onChange}
       ></Input>
-      <FormErrorMessage/>
+      <span>{errorMsg}</span>
+      <FormErrorMessage>{errorMsg}</FormErrorMessage>
     </FormControl>
   );
 };
